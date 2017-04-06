@@ -203,8 +203,12 @@ object Main extends App {
       if (realTime) {
         val now = LocalDateTime.now()
         val dif = Duration.between(now, clock)
-        if (dif.isNegative)
-          Thread.sleep(-dif.getSeconds)
+        if (dif.isNegative){
+          val timeToSleep = dif.getSeconds
+          println(f"Sleeping for $timeToSleep%d")
+
+          Thread.sleep(-timeToSleep)
+        }
       }
 
       showProgress(clock, users.length, events)
