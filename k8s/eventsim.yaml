@@ -1,0 +1,33 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: eventsim
+spec:
+  replicas: 1
+  rollbackTo:
+    revision: 0
+  selector:
+    matchLabels:
+      app: eventsim
+      component: eventsim
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: eventsim
+        component: eventsim
+    spec:
+      imagePullSecrets:
+      - name: stsatlas-atlasquayrobot-pull-secret
+      containers:
+      - image: quay.io/stsatlas/ftio-eventsim:latest
+        name: eventsim
+        volumeMounts: null
+        resources:
+          requests:
+            memory: 8G
+      restartPolicy: Always
